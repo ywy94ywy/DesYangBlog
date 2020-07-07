@@ -1,47 +1,56 @@
-var express = require('express')
-var fs = require('fs')
-var router = express.Router()
+var express = require("express");
+var fs = require("fs");
+var router = express.Router();
 const {
   getArticleList,
   getArticleDetail,
   addArticle,
+  updateArticle,
   delArticle,
-} = require('../controller/article')
-const multer = require('multer')
-const upload = multer()
+} = require("../controller/article");
+const multer = require("multer");
+const upload = multer();
 
-router.post('/getList', function (req, res, next) {
+router.post("/getList", function (req, res, next) {
   getArticleList().then((data) => {
     setTimeout(() => {
       return res.json({
         articles: data,
-      })
-    }, 1000)
-  })
-})
+      });
+    }, 1000);
+  });
+});
 
-router.post('/getDetail', function (req, res, next) {
-  const { id } = req.body
+router.post("/getDetail", function (req, res, next) {
+  const { id } = req.body;
 
   getArticleDetail(id).then((data) => {
-    return res.json(data[0])
-  })
-})
+    return res.json(data[0]);
+  });
+});
 
-router.post('/add', upload.single('content'), function (req, res, next) {
-  const { title, text } = req.body
+router.post("/add", upload.single("content"), function (req, res, next) {
+  const { title, text } = req.body;
 
   addArticle(title, text).then(() => {
-    return res.json({})
-  })
-})
+    return res.json({});
+  });
+});
 
-router.post('/del', function (req, res, next) {
-  const { id } = req.body
+router.post("/update", function (req, res, next) {
+  const { id, title, text } = req.body;
+
+  updateArticle(id, title, text).then(() => {
+    return res.json({});
+  });
+});
+
+router.post("/del", function (req, res, next) {
+  const { id } = req.body;
 
   delArticle(id).then(() => {
-    return res.json({})
-  })
-})
+    return res.json({});
+  });
+});
 
-module.exports = router
+module.exports = router;

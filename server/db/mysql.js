@@ -19,4 +19,5 @@ const exec = (sql) => {
 
 module.exports = {
   exec,
+  es: mysql.escape,
 };

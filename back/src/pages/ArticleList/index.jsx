@@ -1,23 +1,27 @@
-import React from 'react'
-import { useRequest } from 'utils'
-import { List, Card, Skeleton } from 'antd'
-import { useHistory } from 'react-router-dom'
-import { getArticleList } from './services'
+import React from "react";
+import { useRequest } from "utils";
+import { List, Card, Skeleton, message } from "antd";
+import { useHistory } from "react-router-dom";
+import { getArticleList, delArticle } from "./services";
 
 export default () => {
-  const history = useHistory()
+  const history = useHistory();
   const getArticleListRequest = useRequest(getArticleList, {
     initialData: { articles: [] },
+  });
+  const delArticleRequest = useRequest(delArticle, {
     onSuccess(res) {
-      console.log(res)
+      message.success("文章删除成功！");
+      getArticleListRequest.run();
     },
-  })
+    manual: true,
+  });
 
   return (
     <Card>
       <List
         loading={getArticleListRequest.loading}
-        itemLayout='horizontal'
+        itemLayout="horizontal"
         dataSource={
           getArticleListRequest.data ? getArticleListRequest.data.articles : []
         }
@@ -25,10 +29,15 @@ export default () => {
           <List.Item
             actions={[
               <a
+                onClick={() =>
+                  history.push(`/articles/edit?id=${item.article_id}`)
+                }
+              >
+                编辑
+              </a>,
+              <a
                 onClick={() => {
-                  // delArticle.run({
-                  //   article_id: item.article_id,
-                  // })
+                  delArticleRequest.run(item.article_id);
                 }}
               >
                 删除
@@ -39,20 +48,12 @@ export default () => {
               // avatar={
               //   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
               // }
-              title={
-                <span
-                  onClick={() =>
-                    history.push(`/articles/edit?id=${item.article_id}`)
-                  }
-                >
-                  {item.title}
-                </span>
-              }
+              title={<span>{item.title}</span>}
               // description='Ant Design, a design language for background applications, is refined by Ant UED Team'
             />
           </List.Item>
         )}
       />
     </Card>
-  )
-}
+  );
+};

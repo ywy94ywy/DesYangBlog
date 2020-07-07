@@ -3,7 +3,7 @@ import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 import hljs from 'highlight.js'
 import 'react-markdown-editor-lite/lib/index.css'
-import 'highlight.js/styles/github.css'
+import 'highlight.js/styles/rainbow.css'
 
 export const md = new MarkdownIt({
   html: true,
