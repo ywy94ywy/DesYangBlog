@@ -1,16 +1,34 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Article from './Article'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { Layout } from 'antd'
+import Sider from 'components/Sider'
+import Content from 'components/Content'
+import ArticleEdit from './ArticleEdit'
+import ArticleList from './ArticleList'
 
 const APP = () => {
   return (
     <Router>
-      <Switch>
-        <Route path='/'>
-          <Article />
-        </Route>
-      </Switch>
+      <Layout>
+        <Sider />
+        <Content>
+          <Switch>
+            <Route path='/articles/list'>
+              <ArticleList />
+            </Route>
+            <Route path='/articles/edit'>
+              <ArticleEdit />
+            </Route>
+            <Route path='/a'>
+              <div>a</div>
+            </Route>
+            <Route path='/b'>
+              <div>b</div>
+            </Route>
+          </Switch>
+        </Content>
+      </Layout>
     </Router>
   )
 }

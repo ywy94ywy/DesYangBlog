@@ -1,30 +1,31 @@
-const { exec } = require("../db/mysql");
+const { exec } = require('../db/mysql')
 
 const getArticleList = () => {
-  const sql =
-    "select article_id,title,content,create_time,author from article;";
-  return exec(sql).then((res) => res);
-};
+  const sql = 'select article_id,title,create_time from article;'
 
-const getArticleDetail = (articleId) => {
-  const sql = `select article_id,title,content,create_time,author from article where article_id = ${articleId};`;
-  return exec(sql).then((res) => res);
-};
+  return exec(sql).then((res) => res)
+}
 
-const addArticle = (title, content) => {
-  const sql = `insert into article (title,content) values ("${title}","${content}")`;
+const getArticleDetail = (id) => {
+  const sql = `select article_id,title,text,create_time from article where article_id = ${id};`
 
-  return exec(sql).then((res) => res);
-};
+  return exec(sql).then((res) => res)
+}
+
+const addArticle = (title, text) => {
+  const sql = `insert into article (title,text) values ("${title}","${text}")`
+
+  return exec(sql).then((res) => res)
+}
 
 const delArticle = (id) => {
-  const sql = `delete from article where article_id = ${id}`;
-  return exec(sql).then((res) => res);
-};
+  const sql = `delete from article where article_id = ${id}`
+  return exec(sql).then((res) => res)
+}
 
 module.exports = {
   getArticleList,
   getArticleDetail,
   addArticle,
   delArticle,
-};
+}
