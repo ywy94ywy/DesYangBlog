@@ -1,4 +1,5 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState, useEffect, useRef } from 'react'
+import { message } from 'antd'
 import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 import hljs from 'highlight.js'
@@ -6,7 +7,7 @@ import 'react-markdown-editor-lite/lib/index.css'
 import 'highlight.js/styles/rainbow.css'
 
 export const md = new MarkdownIt({
-  html: true,
+  // html: true,
   linkify: true,
   typographer: true,
   highlight: function (str, lang) {
@@ -56,21 +57,76 @@ export const md = new MarkdownIt({
   },
 })
 
+const activeStyle = {
+  outline: '1px dashed blue',
+}
+
 export default forwardRef(({ value, onChange, ...props }, ref) => {
+  const [style, setStyle] = useState()
+  const dropRef = useRef()
+
+  const handleDragEnter = () => {
+    setStyle(activeStyle)
+  }
+
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+  const handleDragLeave = () => {
+    setStyle()
+  }
+  const handleDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setStyle()
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0]
+      if (file.name.match(/\.(md|txt)$/)) {
+        const reader = new FileReader()
+        reader.onload = () => {
+          console.log(reader.result)
+          window.a = reader.result
+          onChange(reader.result)
+        }
+
+        reader.readAsText(e.dataTransfer.files[0])
+      } else {
+        message.error('文件格式不正确')
+      }
+    }
+  }
+
+  useEffect(() => {
+    const dropEl = dropRef.current
+    dropEl.addEventListener('dragenter', handleDragEnter)
+    dropEl.addEventListener('dragover', handleDragOver)
+    dropEl.addEventListener('drop', handleDrop)
+    dropEl.addEventListener('dragleave', handleDragLeave)
+    return () => {
+      dropEl.removeEventListener('dragenter', handleDragEnter)
+      dropEl.removeEventListener('dragover', handleDragOver)
+      dropEl.removeEventListener('drop', handleDrop)
+      dropEl.removeEventListener('dragleave', handleDragLeave)
+    }
+  }, [])
+
   return (
-    <MdEditor
-      ref={ref}
-      style={{ height: '500px' }}
-      view={{
-        md: true,
-        menu: true,
-      }}
-      canView={{}}
-      value={value}
-      onChange={({ text }) => {
-        onChange && onChange(text)
-      }}
-      {...props}
-    />
+    <div style={{ ...style }} ref={dropRef}>
+      <MdEditor
+        ref={ref}
+        style={{ height: '500px' }}
+        view={{
+          md: true,
+          menu: true,
+        }}
+        canView={{}}
+        value={value}
+        onChange={({ text }) => {
+          onChange && onChange(text)
+        }}
+        {...props}
+      />
+    </div>
   )
 })

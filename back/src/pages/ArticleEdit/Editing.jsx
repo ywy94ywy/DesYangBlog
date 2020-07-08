@@ -1,10 +1,19 @@
 import React from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Select, Spin } from 'antd'
 import MdEditor from 'components/MdEditor'
+import { useRequest } from 'utils'
+import { getTags } from '../Tags/services'
 
-export default ({ form, text, setTitle, setText, onSubmit }) => {
+export default ({ form, onSubmit }) => {
+  const getTagsRequest = useRequest(getTags)
+
+  if (!getTagsRequest.data) {
+    return <Spin />
+  }
+
   return (
     <Form
+      name='edit'
       form={form}
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 20 }}
@@ -13,10 +22,19 @@ export default ({ form, text, setTitle, setText, onSubmit }) => {
       }}
     >
       <Form.Item name='title' label='标题' rules={[{ required: true }]}>
-        <Input onChange={(e) => setTitle(e.target.value)} />
+        <Input />
+      </Form.Item>
+      <Form.Item name='tags' label='标签'>
+        <Select mode='multiple'>
+          {getTagsRequest.data.map((v) => (
+            <Select.Option value={v.tag_id} key={v.tag_id}>
+              {v.name}
+            </Select.Option>
+          ))}
+        </Select>
       </Form.Item>
       <Form.Item name='text' label='正文' rules={[{ required: true }]}>
-        <MdEditor value={text} onChange={(value) => setText(value)} />
+        <MdEditor />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 4 }}>
         <Button htmlType='submit'>提交</Button>

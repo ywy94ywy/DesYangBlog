@@ -1,11 +1,11 @@
 import React from 'react'
 import { md } from 'components/MdEditor'
 
-export default ({ title }) => {
-  return title ? (
+export default ({ value }) => {
+  return value ? (
     <div
       dangerouslySetInnerHTML={{
-        __html: md.render(`# ${title}`),
+        __html: md.render(`# ${value}`),
       }}
     ></div>
   ) : null

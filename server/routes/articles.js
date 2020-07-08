@@ -1,56 +1,70 @@
-var express = require("express");
-var fs = require("fs");
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 const {
   getArticleList,
   getArticleDetail,
   addArticle,
   updateArticle,
-  delArticle,
-} = require("../controller/article");
-const multer = require("multer");
-const upload = multer();
 
-router.post("/getList", function (req, res, next) {
+  delArticle,
+} = require('../controller/article')
+
+router.post('/getList', function (req, res, next) {
   getArticleList().then((data) => {
     setTimeout(() => {
       return res.json({
-        articles: data,
-      });
-    }, 1000);
-  });
-});
+        status: 200,
+        data: data.map((v) => ({ ...v, tags: JSON.parse(v.tags) })),
+      })
+    }, 1000)
+  })
+})
 
-router.post("/getDetail", function (req, res, next) {
-  const { id } = req.body;
+router.post('/getDetail', function (req, res, next) {
+  const { id } = req.body
 
   getArticleDetail(id).then((data) => {
-    return res.json(data[0]);
-  });
-});
+    const d = data[0]
+    return res.json({
+      status: 200,
+      data: { ...d, tags: JSON.parse(d.tags) },
+    })
+  })
+})
 
-router.post("/add", upload.single("content"), function (req, res, next) {
-  const { title, text } = req.body;
+router.post('/add', function (req, res, next) {
+  const { title, text, tags } = req.body
+  const tagsString = JSON.stringify(tags)
 
-  addArticle(title, text).then(() => {
-    return res.json({});
-  });
-});
+  addArticle(title, text, tagsString).then(() => {
+    res.json({
+      status: 200,
+      data: null,
+    })
+  })
+})
 
-router.post("/update", function (req, res, next) {
-  const { id, title, text } = req.body;
+router.post('/update', function (req, res, next) {
+  const { id, title, text, tags } = req.body
+  const tagsString = JSON.stringify(tags)
 
-  updateArticle(id, title, text).then(() => {
-    return res.json({});
-  });
-});
+  updateArticle(id, title, text, tagsString).then(() => {
+    res.json({
+      status: 200,
+      data: null,
+    })
+  })
+})
 
-router.post("/del", function (req, res, next) {
-  const { id } = req.body;
+router.post('/del', function (req, res, next) {
+  const { id } = req.body
 
   delArticle(id).then(() => {
-    return res.json({});
-  });
-});
+    res.json({
+      status: 200,
+      data: null,
+    })
+  })
+})
 
-module.exports = router;
+module.exports = router

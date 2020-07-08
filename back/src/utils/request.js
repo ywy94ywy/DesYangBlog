@@ -11,7 +11,13 @@ Axios.interceptors.request.use((config) => {
 })
 
 Axios.interceptors.response.use((res) => {
-  return res.data
+  const { data } = res
+  const { status } = data
+  if (status === 200) {
+    return Promise.resolve(data.data)
+  } else {
+    return Promise.reject(data)
+  }
 })
 
 export default Axios

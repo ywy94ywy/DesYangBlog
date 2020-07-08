@@ -1,24 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
-import Nav from "components/Nav";
-import Container from "components/Container";
-import MdArticle from "components/MdArticle";
-import { http } from "utils";
-import { useRequest } from "ahooks";
-import { Button, Card } from "antd";
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import Nav from 'components/Nav'
+import Container from 'components/Container'
+import MdArticle from 'components/MdArticle'
+import { useRequest, useQuery } from 'utils'
+import { Button, Card, Spin } from 'antd'
+import { getArticleDetail } from './services'
 
-export default withRouter(({ history, location }) => {
-  const { data } = useRequest("/articles/getDetail", {
-    requestMethod: (url) =>
-      http.post(url, {
-        article_id: location.search.split("=")[1],
-      }),
-  });
+export default () => {
+  const history = useHistory()
+  const query = useQuery()
+  const getArticleDetailRequest = useRequest(getArticleDetail, { manual: true })
+  const id = query.get('p')
 
-  if (!data) {
-    return null;
+  useEffect(() => {
+    if (id) {
+      getArticleDetailRequest.run(id)
+    }
+  }, [id])
+
+  if (!getArticleDetailRequest.data) {
+    return <Spin />
   }
-  
+
   return (
     <div>
       <Nav />
@@ -26,14 +30,15 @@ export default withRouter(({ history, location }) => {
         <Card>
           <Button
             onClick={() => {
-              history.push("/");
+              history.push('/')
             }}
           >
             history back
           </Button>
-          <MdArticle source={data.content} />
+          <h1>{getArticleDetailRequest.data.title}</h1>
+          <MdArticle source={getArticleDetailRequest.data.text} />
         </Card>
       </Container>
     </div>
-  );
-});
+  )
+}

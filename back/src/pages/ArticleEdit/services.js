@@ -1,28 +1,29 @@
 export const getArticleDetail = (id) => {
   return {
-    url: "/articles/getDetail",
-    method: "post",
+    url: '/articles/getDetail',
+    method: 'post',
     data: {
       id,
     },
-  };
-};
+  }
+}
 
-export const addArticle = ({ title, text }) => {
+export const addArticle = ({ title, text, tags }) => {
   return {
-    url: "/articles/add",
-    method: "post",
+    url: '/articles/add',
+    method: 'post',
     data: {
       title,
       text,
+      tags,
     },
-  };
-};
+  }
+}
 
-export const updateArticle = ({ id, title, text }) => {
+export const updateArticle = ({ id, title, text, tags }) => {
   return {
-    url: "/articles/update",
-    method: "post",
-    data: { id, title, text },
-  };
-};
+    url: '/articles/update',
+    method: 'post',
+    data: { id, title, text, tags },
+  }
+}

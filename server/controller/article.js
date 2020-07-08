@@ -1,40 +1,39 @@
-const { exec, es } = require("../db/mysql");
+const { exec, es } = require('../db/mysql')
 
-const getArticleList = () => {
-  const sql = "SELECT article_id,title,create_time FROM article;";
+const getArticleList = async () => {
+  const sql = 'SELECT article_id,title,create_time,tags FROM article;'
 
-  return exec(sql).then((res) => res);
-};
+  return await exec(sql)
+}
 
-const getArticleDetail = (id) => {
-  const sql = `SELECT article_id,title,text,create_time FROM article WHERE article_id = ${es(
-    id
-  )};`;
+const getArticleDetail = async (id) => {
+  const sql = `SELECT article_id,title,text,create_time,tags FROM article WHERE article_id = ${es(
+    id,
+  )};`
 
-  return exec(sql).then((res) => res);
-};
+  return await exec(sql)
+}
 
-const addArticle = (title, text) => {
-  const sql = `INSERT INTO article (title,text) VALUES (${es(title)},${es(
-    text
-  )});`;
+const addArticle = async (title, text, tags) => {
+  const sql = `INSERT INTO article (title,text,tags) VALUES (${es(title)},${es(
+    text,
+  )},${es(tags)});`
 
-  return exec(sql).then((res) => res);
-};
+  return await exec(sql)
+}
 
-const updateArticle = (id, title, text) => {
-  console.log(`UPDATE article SET title=${es(title)}, `);
+const updateArticle = async (id, title, text, tags) => {
   const sql = `UPDATE article SET title=${es(title)}, text=${es(
-    text
-  )} WHERE article_id = ${es(id)};`;
+    text,
+  )}, tags=${es(tags)} WHERE article_id = ${es(id)};`
 
-  return exec(sql).then((res) => res);
-};
+  return await exec(sql)
+}
 
-const delArticle = (id) => {
-  const sql = `DELETE FROM article WHERE article_id = ${es(id)};`;
-  return exec(sql).then((res) => res);
-};
+const delArticle = async (id) => {
+  const sql = `DELETE FROM article WHERE article_id = ${es(id)};`
+  return await exec(sql)
+}
 
 module.exports = {
   getArticleList,
@@ -42,4 +41,4 @@ module.exports = {
   addArticle,
   updateArticle,
   delArticle,
-};
+}
