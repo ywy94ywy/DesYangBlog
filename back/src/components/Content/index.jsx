@@ -1,28 +1,34 @@
 import React from 'react'
 import { Layout, PageHeader } from 'antd'
+import { useHistory } from 'react-router-dom'
+import routes from '@/config/routes'
 
-const routes = [
-  {
-    path: 'index',
-    breadcrumbName: 'First-level Menu',
-  },
-  {
-    path: 'first',
-    breadcrumbName: 'Second-level Menu',
-  },
-  {
-    path: 'second',
-    breadcrumbName: 'Third-level Menu',
-  },
-]
+const titleMapLoop = (routes) => {
+  const map = {}
+  const loop = (routes) => {
+    routes.forEach((v) => {
+      if (v.children) {
+        loop(v.children)
+      } else {
+        if (v.component) {
+          map[v.path] = v.name
+        }
+      }
+    })
+  }
+  loop(routes)
+  return map
+}
+const titleMap = titleMapLoop(routes)
 
 export default ({ children }) => {
+  const history = useHistory()
+  const pathname = history.location.pathname
+
   return (
     <Layout.Content>
       <PageHeader
-        title='Title'
-        subTitle='This is a subtitle'
-        // breadcrumb={{ routes }}
+        title={titleMap[pathname]}
         style={{
           background: 'white',
         }}

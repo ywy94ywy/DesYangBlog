@@ -1,9 +1,10 @@
-export const addTag = (name) => {
+export const addTag = ({ name, type } = {}) => {
   return {
     url: '/tags/add',
     method: 'post',
     data: {
       name,
+      type,
     },
   }
 }

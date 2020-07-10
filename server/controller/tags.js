@@ -1,22 +1,29 @@
 const { exec, es } = require('../db/mysql')
 
 const getTags = async () => {
-  const sql = 'SELECT tag_id, name FROM tag;'
+  const sql = 'SELECT id, name, type FROM tag;'
 
   return await exec(sql)
 }
 
-const addTag = async (name) => {
-  const checkSql = `SELECT count(*) FROM tag WHERE name = ${es(name)};`
-  const sql = `INSERT INTO tag (name) VALUES (${es(name)});`
+const addTag = async (name, type) => {
+  const checkSql = `SELECT count(*) FROM tag WHERE name = ${es(
+    name,
+  )} and type = ${es(type)};`
+  const sql = `INSERT INTO tag (name, type) VALUES (${es(name)}, ${es(type)});`
 
-  const count = await exec(checkSql)
-  const exist = count[0]['count(*)'] > 0
+  try {
+    const count = await exec(checkSql)
+    const exist = count[0]['count(*)'] > 0
 
-  if (exist) {
-    return Promise.reject('标签已存在')
-  } else {
-    return await exec(sql)
+    if (exist) {
+      return Promise.reject('标签已存在！')
+    } else {
+      return await exec(sql)
+    }
+  } catch (err) {
+    console.log(err)
+    return Promise.reject('传递参数错误！')
   }
 }
 
@@ -30,7 +37,7 @@ const addTag = async (name) => {
 // }
 
 const delTag = async (id) => {
-  const sql = `DELETE FROM tag WHERE tag_id = ${es(id)};`
+  const sql = `DELETE FROM tag WHERE id = ${es(id)};`
 
   return await exec(sql)
 }

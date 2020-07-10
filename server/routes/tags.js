@@ -10,7 +10,6 @@ const {
 
 router.post('/get', function (req, res, next) {
   getTags().then((data) => {
-    console.log(data)
     res.json({
       status: 200,
       data,
@@ -19,10 +18,10 @@ router.post('/get', function (req, res, next) {
 })
 
 router.post('/add', function (req, res, next) {
-  const { name } = req.body
+  const { name, type } = req.body
 
-  addTag(name)
-    .then((r) => {
+  addTag(name, type)
+    .then(() => {
       res.json({ status: 200, data: null })
     })
     .catch((message) => {

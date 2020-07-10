@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
+import routes from '@/config/routes'
 
 export default () => {
   const history = useHistory()
@@ -15,6 +16,23 @@ export default () => {
     })
   }, [])
 
+  const renderMenu = (routes) =>
+    routes.map((v) => {
+      if (v.children) {
+        return (
+          <Menu.SubMenu key={v.path} title={v.name}>
+            {renderMenu(v.children)}
+          </Menu.SubMenu>
+        )
+      } else {
+        return (
+          <Menu.Item key={v.path} onClick={() => history.push(v.path)}>
+            {v.name}
+          </Menu.Item>
+        )
+      }
+    })
+
   return (
     <Layout.Sider>
       <Menu
@@ -23,27 +41,7 @@ export default () => {
         defaultOpenKeys={['/articles']}
         selectedKeys={[activeMenu]}
       >
-        <Menu.SubMenu key='/articles' title='文章管理'>
-          <Menu.Item
-            key='/articles/list'
-            onClick={() => history.push('/articles/list')}
-          >
-            文章列表
-          </Menu.Item>
-          <Menu.Item
-            key='/articles/edit'
-            onClick={() => history.push('/articles/edit')}
-          >
-            文章编辑
-          </Menu.Item>
-        </Menu.SubMenu>
-
-        <Menu.Item key='/tags' onClick={() => history.push('/tags')}>
-          标签管理
-        </Menu.Item>
-        <Menu.Item key='/b' onClick={() => history.push('/b')}>
-          b
-        </Menu.Item>
+        {renderMenu(routes)}
       </Menu>
     </Layout.Sider>
   )

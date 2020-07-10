@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 08/07/2020 18:00:14
+ Date: 10/07/2020 17:49:46
 */
 
 SET NAMES utf8mb4;
@@ -45,28 +45,48 @@ INSERT INTO `article` VALUES (23, '阿萨德安抚34', '## 浏览器请求的发
 -- ----------------------------
 DROP TABLE IF EXISTS `classify`;
 CREATE TABLE `classify`  (
-  `classify_id` int(0) NOT NULL,
+  `id` int(0) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `p_id` int(0) NOT NULL,
   `level` int(0) NOT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for dictionary
+-- ----------------------------
+DROP TABLE IF EXISTS `dictionary`;
+CREATE TABLE `dictionary`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `update_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dictionary
+-- ----------------------------
+INSERT INTO `dictionary` VALUES (4, 'tag', '标签名称', '[ { \"key\": \"article\", \"value\": \"文章标签\" }, { \"key\": \"css\", \"value\": \"css标签\" } ]', '2020-07-10 16:32:14', NULL);
+
+-- ----------------------------
 -- Table structure for tag
 -- ----------------------------
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag`  (
-  `tag_id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`tag_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `update_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tag
 -- ----------------------------
-INSERT INTO `tag` VALUES (33, 'javascript');
-INSERT INTO `tag` VALUES (34, 'git');
-INSERT INTO `tag` VALUES (36, 'node');
-INSERT INTO `tag` VALUES (37, 'java');
+INSERT INTO `tag` VALUES (41, 'java', 'article', '2020-07-10 17:25:14', NULL);
+INSERT INTO `tag` VALUES (43, 'javascript', 'article', '2020-07-10 17:32:47', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
