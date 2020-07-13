@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 80020
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 10/07/2020 17:49:46
+ Date: 14/07/2020 00:34:09
 */
 
 SET NAMES utf8mb4;
@@ -22,23 +22,22 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article`  (
-  `article_id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `update_time` datetime(0) NULL DEFAULT NULL,
-  `original` tinyint(1) NULL DEFAULT NULL,
-  `visits` int(0) NULL DEFAULT NULL,
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `original` tinyint(1) NOT NULL DEFAULT 0,
+  `visits` int(0) NOT NULL DEFAULT 0,
   `classify_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `tags` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`article_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES (22, '文章一', '## 浏览器请求的发展与详解\n### 早期资源获取方式\n> 早期请求，比如提交表单会根据服务器返回刷新整个页面，资源浪费，并且用户体验较差\n\n* URL\n* html\n    * <Link/> \n    * <script/>\n    * <form>\n* javascript\n    * window.location.href\n    * src\n\n### XMLHttpRequest(ajax)\n> 在不重新加载页面的情况下获取和发送数据，并局部刷新页面  \n> 详细的属性、事件、方法参考[MDN_XMLHTTPRequest](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest)  \n\n普通的请求编写方式：\n```js\nvar xhr;\n// 处理浏览器兼容\nif(window.XMLHttpRequest){ // 非IE\n    xhr = new XMLHttpRequest() ;\n} else if (window.ActiveXObject){ // IE\n    xhr = new ActiveXObject(\'Microsoft.XMLHTTP\');\n}\nif(xhr){\n    xhr.onreadystatechange = function(){\n        if(xhr.readyState === 4 && xhr.status === 200){\n            // 请求返回成功\n        }else{\n            // 请求返回失败\n        }\n    }; // 设置监听函数\n    xhr.open(method, url, async); // 打开链接\n    xhr.setRequestHeader(\'Content-Type\', MIME) // 设置请求头\n    xhr.send(data) // 发送请求\n}\n```\n\n优点：\n* 页面加载后请求接收数据，局部渲染页面  \n\n缺点：\n* 繁琐与兼容性\n\n### JQuery.Ajax\n> jquery对XHR的封装\n\n```js\n$.ajax({\n  type: \'POST\',\n  url: url, \n  data: data,\n  dataType: dataType,\n  success: function () {},\n  error: function () {}\n})\n```\n\n优点：\n* 兼容较好\n* 支持jsonp\n\n缺点：\n* 多请求依赖形成回调地狱\n* 依赖jquery\n\n### Fetch\n> 基于ES6 Promise的异步处理机制,实际应用需要做封装处理\n\n```js\nfetch(url)\n    .then(response => response.json())\n    .then(data => console.log(data))\n    .catch(error => console.log(error))\n```\n\n优点：\n* 解决回调地狱\n* promise链式调用\n\n缺点：\n* 没有拦截器\n* 默认不带cookie\n* 底层API，需要封装\n* 兼容性\n* ...\n\n### Axios\n> 封装原生XHR，同时依赖ES6 Promise\n\n```js\naxios.post（\'/user\', data)\n  .then(function (response) {\n    console.log(response);\n  })\n  .catch(function (error) {\n    console.log(error);\n  });\n```\n\n优点：\n* 支持promise\n* 支持浏览器(xmlhttprequest)与node(http)场景\n* 自动转换JSON\n* 转换请求和响应数据\n* 拦截器\n* 取消请求\n* 浏览器支持防御CSRF(跨站请求伪造)\n* 解决回调地狱\n\n', '2020-07-08 15:03:02', NULL, NULL, NULL, NULL, '[34,33]');
-INSERT INTO `article` VALUES (23, '阿萨德安抚34', '## 浏览器请求的发展与详解\n### 早期资源获取方式\n> 早期请求，比如提交表单会根据服务器返回刷新整个页面，资源浪费，并且用户体验较差\n\n* URL\n* html\n    * <Link/> \n    * <script/>\n    * <form>\n* javascript\n    * window.location.href\n    * src\n\n### XMLHttpRequest(ajax)\n> 在不重新加载页面的情况下获取和发送数据，并局部刷新页面  \n> 详细的属性、事件、方法参考[MDN_XMLHTTPRequest](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest)  \n\n普通的请求编写方式：\n```js\nvar xhr;\n// 处理浏览器兼容\nif(window.XMLHttpRequest){ // 非IE\n    xhr = new XMLHttpRequest() ;\n} else if (window.ActiveXObject){ // IE\n    xhr = new ActiveXObject(\'Microsoft.XMLHTTP\');\n}\nif(xhr){\n    xhr.onreadystatechange = function(){\n        if(xhr.readyState === 4 && xhr.status === 200){\n            // 请求返回成功\n        }else{\n            // 请求返回失败\n        }\n    }; // 设置监听函数\n    xhr.open(method, url, async); // 打开链接\n    xhr.setRequestHeader(\'Content-Type\', MIME) // 设置请求头\n    xhr.send(data) // 发送请求\n}\n```\n\n优点：\n* 页面加载后请求接收数据，局部渲染页面  \n\n缺点：\n* 繁琐与兼容性\n\n### JQuery.Ajax\n> jquery对XHR的封装\n\n```js\n$.ajax({\n  type: \'POST\',\n  url: url, \n  data: data,\n  dataType: dataType,\n  success: function () {},\n  error: function () {}\n})\n```\n\n优点：\n* 兼容较好\n* 支持jsonp\n\n缺点：\n* 多请求依赖形成回调地狱\n* 依赖jquery\n\n### Fetch\n> 基于ES6 Promise的异步处理机制,实际应用需要做封装处理\n\n```js\nfetch(url)\n    .then(response => response.json())\n    .then(data => console.log(data))\n    .catch(error => console.log(error))\n```\n\n优点：\n* 解决回调地狱\n* promise链式调用\n\n缺点：\n* 没有拦截器\n* 默认不带cookie\n* 底层API，需要封装\n* 兼容性\n* ...\n\n### Axios\n> 封装原生XHR，同时依赖ES6 Promise\n\n```js\naxios.post（\'/user\', data)\n  .then(function (response) {\n    console.log(response);\n  })\n  .catch(function (error) {\n    console.log(error);\n  });\n```\n\n优点：\n* 支持promise\n* 支持浏览器(xmlhttprequest)与node(http)场景\n* 自动转换JSON\n* 转换请求和响应数据\n* 拦截器\n* 取消请求\n* 浏览器支持防御CSRF(跨站请求伪造)\n* 解决回调地狱\n\n', '2020-07-08 15:08:33', NULL, NULL, NULL, NULL, '[33,34,36]');
+INSERT INTO `article` VALUES (27, '测试1', '# sha.js\n[![NPM Package](https://img.shields.io/npm/v/sha.js.svg?style=flat-square)](https://www.npmjs.org/package/sha.js)\n[![Build Status](https://img.shields.io/travis/crypto-browserify/sha.js.svg?branch=master&style=flat-square)](https://travis-ci.org/crypto-browserify/sha.js)\n[![Dependency status](https://img.shields.io/david/crypto-browserify/sha.js.svg?style=flat-square)](https://david-dm.org/crypto-browserify/sha.js#info=dependencies)\n\n[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)\n\nNode style `SHA` on pure JavaScript.\n\n```js\nvar shajs = require(\'sha.js\')\n\nconsole.log(shajs(\'sha256\').update(\'42\').digest(\'hex\'))\n// => 73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049\nconsole.log(new shajs.sha256().update(\'42\').digest(\'hex\'))\n// => 73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049\n\nvar sha256stream = shajs(\'sha256\')\nsha256stream.end(\'42\')\nconsole.log(sha256stream.read().toString(\'hex\'))\n// => 73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049\n```\n\n## supported hashes\n`sha.js` currently implements:\n\n  - SHA (SHA-0) -- **legacy, do not use in new systems**\n  - SHA-1 -- **legacy, do not use in new systems**\n  - SHA-224\n  - SHA-256\n  - SHA-384\n  - SHA-512\n\n\n## Not an actual stream\nNote, this doesn\'t actually implement a stream, but wrapping this in a stream is trivial.\nIt does update incrementally, so you can hash things larger than RAM, as it uses a constant amount of memory (except when using base64 or utf8 encoding, see code comments).\n\n\n## Acknowledgements\nThis work is derived from Paul Johnston\'s [A JavaScript implementation of the Secure Hash Algorithm](http://pajhome.org.uk/crypt/md5/sha1.html).\n\n\n## LICENSE [MIT](LICENSE)\n', '2020-07-14 00:11:57', '2020-07-14 00:11:57', 0, 0, NULL, '[46]');
 
 -- ----------------------------
 -- Table structure for classify
@@ -57,18 +56,18 @@ CREATE TABLE `classify`  (
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dictionary
 -- ----------------------------
-INSERT INTO `dictionary` VALUES (4, 'tag', '标签名称', '[ { \"key\": \"article\", \"value\": \"文章标签\" }, { \"key\": \"css\", \"value\": \"css标签\" } ]', '2020-07-10 16:32:14', NULL);
+INSERT INTO `dictionary` VALUES (8, 'tag', 'tag', '[   {     \"key\": \"article\",     \"value\": \"article\"   },   {     \"key\": \"css\",     \"value\": \"css\"   } ]', '2020-07-13 21:57:47', '2020-07-13 21:57:47');
 
 -- ----------------------------
 -- Table structure for tag
@@ -78,15 +77,17 @@ CREATE TABLE `tag`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  `update_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tag
 -- ----------------------------
-INSERT INTO `tag` VALUES (41, 'java', 'article', '2020-07-10 17:25:14', NULL);
-INSERT INTO `tag` VALUES (43, 'javascript', 'article', '2020-07-10 17:32:47', NULL);
+INSERT INTO `tag` VALUES (45, 'java', 'article', '2020-07-13 22:00:22', '2020-07-13 22:00:22');
+INSERT INTO `tag` VALUES (46, 'javascript', 'article', '2020-07-13 22:00:26', '2020-07-13 22:00:26');
+INSERT INTO `tag` VALUES (47, 'github', 'article', '2020-07-13 22:00:39', '2020-07-13 22:00:39');
+INSERT INTO `tag` VALUES (50, 'nodejs', 'article', '2020-07-13 22:42:16', '2020-07-13 22:42:16');
 
 SET FOREIGN_KEY_CHECKS = 1;
