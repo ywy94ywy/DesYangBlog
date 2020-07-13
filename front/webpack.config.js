@@ -40,7 +40,14 @@ module.exports = {
         test: /\.scss$/,
         use: [
           'style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[path]-[local]-[hash:base64:5]',
+              },
+            },
+          },
           {
             loader: 'sass-loader',
             options: {
@@ -55,7 +62,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 8192, 
+              limit: 8192,
               name: 'resource/[name].[ext]',
             },
           },

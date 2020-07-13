@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Menu, Row, Col, Layout, Card, Tag } from 'antd'
 import Container from 'components/Container'
 import Nav from 'components/Nav'
+import Header from 'components/Header'
 import { useHistory } from 'react-router-dom'
 import { useRequest } from 'utils'
 import { getArticles, getTags } from './services'
@@ -15,12 +16,13 @@ export default () => {
   const tagsMap = {}
 
   if (getTagsRequest.data) {
-    getTagsRequest.data.forEach((v) => (tagsMap[v.tag_id] = v.name))
+    getTagsRequest.data.forEach((v) => (tagsMap[v.id] = v.name))
   }
 
   return (
     <>
-      <Nav />
+      <Header />
+      {/* <Nav />
       <section>
         <Container>
           <Row gutter={[24, 24]}>
@@ -56,7 +58,7 @@ export default () => {
             </Col>
           </Row>
         </Container>
-      </section>
+      </section> */}
     </>
   )
 }

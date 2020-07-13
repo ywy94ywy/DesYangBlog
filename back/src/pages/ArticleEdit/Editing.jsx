@@ -27,7 +27,7 @@ export default ({ form, onSubmit }) => {
       <Form.Item name='tags' label='标签'>
         <Select mode='multiple'>
           {getTagsRequest.data.map((v) => (
-            <Select.Option value={v.tag_id} key={v.tag_id}>
+            <Select.Option value={v.id} key={v.id}>
               {v.name}
             </Select.Option>
           ))}

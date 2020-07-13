@@ -1,0 +1,28 @@
+.article {
+  margin-bottom: 24px;
+  position: relative;
+  padding: 8px 0 16px;
+  &:not(:last-child):after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+  }
+  > footer {
+    display: flex;
+    justify-content: space-between;
+    > ul {
+      > li {
+        display: flex;
+        align-items: center;
+        &:not(:last-child) {
+          margin-right: 8px;
+        }
+        > span {
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+}

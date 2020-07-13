@@ -1,15 +1,16 @@
 import React from 'react'
-import ReactDom from 'react-dom'
+import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import App from './App'
+import Home from './Home'
 import Doc from './Doc'
+import './global.scss'
 
-const APP = () => {
+const App = () => {
   return (
     <Router>
       <Switch>
         <Route path='/' exact>
-          <App />
+          <Home />
         </Route>
         <Route path='/article'>
           <Doc />
@@ -18,4 +19,5 @@ const APP = () => {
     </Router>
   )
 }
-ReactDom.render(<APP />, document.getElementById('root'))
+
+ReactDOM.render(<App />, document.getElementById('root'))

@@ -2,9 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import styles from './style.scss'
 
-export default ({ className, style, children }) => {
+export default ({ children, style, className }) => {
   return (
-    <div className={classNames(className, styles.container)} style={style}>
+    <div className={classNames(styles.content, className)} style={style}>
       {children}
     </div>
   )
