@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : localhost_3306
  Source Server Type    : MySQL
  Source Server Version : 80020
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 14/07/2020 00:34:09
+ Date: 14/07/2020 17:58:44
 */
 
 SET NAMES utf8mb4;
@@ -31,13 +31,18 @@ CREATE TABLE `article`  (
   `visits` int(0) NOT NULL DEFAULT 0,
   `classify_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `tags` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `Published` tinyint(0) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES (27, '测试1', '# sha.js\n[![NPM Package](https://img.shields.io/npm/v/sha.js.svg?style=flat-square)](https://www.npmjs.org/package/sha.js)\n[![Build Status](https://img.shields.io/travis/crypto-browserify/sha.js.svg?branch=master&style=flat-square)](https://travis-ci.org/crypto-browserify/sha.js)\n[![Dependency status](https://img.shields.io/david/crypto-browserify/sha.js.svg?style=flat-square)](https://david-dm.org/crypto-browserify/sha.js#info=dependencies)\n\n[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)\n\nNode style `SHA` on pure JavaScript.\n\n```js\nvar shajs = require(\'sha.js\')\n\nconsole.log(shajs(\'sha256\').update(\'42\').digest(\'hex\'))\n// => 73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049\nconsole.log(new shajs.sha256().update(\'42\').digest(\'hex\'))\n// => 73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049\n\nvar sha256stream = shajs(\'sha256\')\nsha256stream.end(\'42\')\nconsole.log(sha256stream.read().toString(\'hex\'))\n// => 73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049\n```\n\n## supported hashes\n`sha.js` currently implements:\n\n  - SHA (SHA-0) -- **legacy, do not use in new systems**\n  - SHA-1 -- **legacy, do not use in new systems**\n  - SHA-224\n  - SHA-256\n  - SHA-384\n  - SHA-512\n\n\n## Not an actual stream\nNote, this doesn\'t actually implement a stream, but wrapping this in a stream is trivial.\nIt does update incrementally, so you can hash things larger than RAM, as it uses a constant amount of memory (except when using base64 or utf8 encoding, see code comments).\n\n\n## Acknowledgements\nThis work is derived from Paul Johnston\'s [A JavaScript implementation of the Secure Hash Algorithm](http://pajhome.org.uk/crypt/md5/sha1.html).\n\n\n## LICENSE [MIT](LICENSE)\n', '2020-07-14 00:11:57', '2020-07-14 00:11:57', 0, 0, NULL, '[46]');
+INSERT INTO `article` VALUES (28, '测试', '## 防抖\n描述：在n秒内只执行一次，期间如果再次触发，将重新计时\n#### 立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (time) {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      // do something\n    }, 1000)\n  }\n})()\n```\n#### 非立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n    } else {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      time = null\n    }, 1000)\n  }\n})()\n```\n\n## 节流\n描述：在n秒内只执行一次\n#### 定时器\n```javascript\nconst throttle = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n      time = setTimeout(() => {\n        time = null\n      }, 1000)\n    }\n  }\n})()\n```\n#### 时间戳\n```javascript\nconst throttle = (() => {\n  let time = 0\n  return () => {\n    let now = new Date()\n    if (now - time > 1000) {\n      // do something\n      time = now\n    }\n  }\n})()\n\n```', '2020-07-14 09:12:18', '2020-07-14 17:18:55', 0, 43, NULL, '[45,46,47]', 0);
+INSERT INTO `article` VALUES (29, '标题标题！！！', '## 防抖\n描述：在n秒内只执行一次，期间如果再次触发，将重新计时\n#### 立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (time) {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      // do something\n    }, 1000)\n  }\n})()\n```\n#### 非立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n    } else {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      time = null\n    }, 1000)\n  }\n})()\n```\n\n## 节流\n描述：在n秒内只执行一次\n#### 定时器\n```javascript\nconst throttle = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n      time = setTimeout(() => {\n        time = null\n      }, 1000)\n    }\n  }\n})()\n```\n#### 时间戳\n```javascript\nconst throttle = (() => {\n  let time = 0\n  return () => {\n    let now = new Date()\n    if (now - time > 1000) {\n      // do something\n      time = now\n    }\n  }\n})()\n\n```', '2020-07-14 10:36:52', '2020-07-14 10:46:59', 0, 0, NULL, '[46]', 1);
+INSERT INTO `article` VALUES (30, '标题标题！！！', '## 防抖\n描述：在n秒内只执行一次，期间如果再次触发，将重新计时\n#### 立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (time) {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      // do something\n    }, 1000)\n  }\n})()\n```\n#### 非立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n    } else {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      time = null\n    }, 1000)\n  }\n})()\n```\n\n## 节流\n描述：在n秒内只执行一次\n#### 定时器\n```javascript\nconst throttle = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n      time = setTimeout(() => {\n        time = null\n      }, 1000)\n    }\n  }\n})()\n```\n#### 时间戳\n```javascript\nconst throttle = (() => {\n  let time = 0\n  return () => {\n    let now = new Date()\n    if (now - time > 1000) {\n      // do something\n      time = now\n    }\n  }\n})()\n\n```', '2020-07-14 10:36:52', '2020-07-14 10:36:52', 0, 0, NULL, '[46]', 0);
+INSERT INTO `article` VALUES (31, '标题标题！！！', '## 防抖\n描述：在n秒内只执行一次，期间如果再次触发，将重新计时\n#### 立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (time) {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      // do something\n    }, 1000)\n  }\n})()\n```\n#### 非立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n    } else {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      time = null\n    }, 1000)\n  }\n})()\n```\n\n## 节流\n描述：在n秒内只执行一次\n#### 定时器\n```javascript\nconst throttle = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n      time = setTimeout(() => {\n        time = null\n      }, 1000)\n    }\n  }\n})()\n```\n#### 时间戳\n```javascript\nconst throttle = (() => {\n  let time = 0\n  return () => {\n    let now = new Date()\n    if (now - time > 1000) {\n      // do something\n      time = now\n    }\n  }\n})()\n\n```', '2020-07-14 10:36:53', '2020-07-14 10:36:53', 0, 0, NULL, '[46]', 0);
+INSERT INTO `article` VALUES (32, '标题标题！！！', '## 防抖\n描述：在n秒内只执行一次，期间如果再次触发，将重新计时\n#### 立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (time) {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      // do something\n    }, 1000)\n  }\n})()\n```\n#### 非立即执行\n```javascript\nconst debounce = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n    } else {\n      clearTimeout(time)\n    }\n    time = setTimeout(() => {\n      time = null\n    }, 1000)\n  }\n})()\n```\n\n## 节流\n描述：在n秒内只执行一次\n#### 定时器\n```javascript\nconst throttle = (() => {\n  let time\n  return () => {\n    if (!time) {\n      // do something\n      time = setTimeout(() => {\n        time = null\n      }, 1000)\n    }\n  }\n})()\n```\n#### 时间戳\n```javascript\nconst throttle = (() => {\n  let time = 0\n  return () => {\n    let now = new Date()\n    if (now - time > 1000) {\n      // do something\n      time = now\n    }\n  }\n})()\n\n```', '2020-07-14 10:36:59', '2020-07-14 10:36:59', 0, 0, NULL, '[46]', 0);
 
 -- ----------------------------
 -- Table structure for classify
@@ -62,7 +67,7 @@ CREATE TABLE `dictionary`  (
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dictionary
@@ -80,7 +85,7 @@ CREATE TABLE `tag`  (
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tag
