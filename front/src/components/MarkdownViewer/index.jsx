@@ -1,21 +1,26 @@
-import React from 'react'
-import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
-import toc from 'markdown-it-toc'
-import 'highlight.js/styles/rainbow.css'
+import React, { useState, useEffect, useRef } from "react";
+import MarkdownIt from "markdown-it";
+import hljs from "highlight.js";
+import toc from "markdown-it-toc-done-right";
+import anchor from "markdown-it-anchor";
+import uslug from "uslug";
+import "highlight.js/styles/rainbow.css";
+
+const uslugify = (s) => uslug(s);
 
 const md = new MarkdownIt({
   // html: true,
   linkify: true,
+  xhtmlOut: true,
   typographer: true,
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
-        return hljs.highlight(lang, str).value
+        return hljs.highlight(lang, str).value;
       } catch (__) {}
     }
 
-    return ''
+    return "";
     // // 此处判断是否有添加代码语言
     // if (lang && hljs.getLanguage(lang)) {
     //   try {
@@ -60,12 +65,48 @@ const md = new MarkdownIt({
     // html = '<ol>' + html + '</ol>'
     // return '<pre class="hljs"><code>' + html + '</code></pre>'
   },
-})
+});
 
-md.use(toc)
+md.use(anchor, {
+  permalink: true,
+  permalinkBefore: true,
+  permalinkSymbol: "",
+  slugify: uslugify,
+}).use(toc, {
+  slugify: uslugify,
+  callback(html, ast) {
+    md.html = html;
+  },
+});
 
 const MarkdownViewer = ({ source }) => {
-  return <div dangerouslySetInnerHTML={{ __html: md.render(source) }}></div>
-}
+  const ref = useRef();
 
-export default MarkdownViewer
+  useEffect(() => {
+    ref.current.innerHTML = md.html;
+  }, []);
+
+  return (
+    <>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: md.render(source),
+        }}
+      ></div>
+      <div ref={ref}></div>
+    </>
+  );
+};
+
+export const useMarkDown = (source) => {
+  const [contents, setContents] = useState("");
+  const text = md.render(source);
+
+  useEffect(() => {
+    setContents(md.html);
+  }, [source]);
+
+  return [text, contents];
+};
+
+export default MarkdownViewer;
