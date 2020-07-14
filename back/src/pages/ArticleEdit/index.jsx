@@ -20,8 +20,8 @@ export default () => {
   const id = query.get('id')
 
   const getArticleDetailRequest = useRequest(getArticleDetail, {
-    onSuccess({ title, text, tags }) {
-      editForm.setFieldsValue({ title, text, tags })
+    onSuccess(res) {
+      editForm.setFieldsValue(res)
       setTitle(title)
       setText(text)
     },
@@ -38,6 +38,10 @@ export default () => {
   const updateArticleRequest = useRequest(updateArticle, {
     onSuccess() {
       message.success('文章修改成功！')
+      getArticleDetailRequest.run(id)
+    },
+    onError(err) {
+      message.error(err)
     },
     manual: true,
   })
@@ -46,7 +50,7 @@ export default () => {
     if (id) {
       getArticleDetailRequest.run(id)
     } else {
-      editForm.setFieldsValue({ title: '', text: '', tags: [] })
+      editForm.resetFields()
       setTitle()
       setText()
     }

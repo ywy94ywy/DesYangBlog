@@ -1,30 +1,25 @@
 export const getArticleDetail = (id) => {
   return {
-    url: "/articles/getDetail",
-    method: "post",
+    url: '/articles/getDetail',
+    method: 'post',
     data: {
       id,
     },
-  };
-};
+  }
+}
 
-export const addArticle = ({ title, text, tags, original }) => {
+export const addArticle = (data) => {
   return {
-    url: "/articles/add",
-    method: "post",
-    data: {
-      title,
-      text,
-      tags,
-      original,
-    },
-  };
-};
+    url: '/articles/add',
+    method: 'post',
+    data,
+  }
+}
 
-export const updateArticle = ({ id, title, text, tags }) => {
+export const updateArticle = (data) => {
   return {
-    url: "/articles/update",
-    method: "post",
-    data: { id, title, text, tags },
-  };
-};
+    url: '/articles/update',
+    method: 'post',
+    data,
+  }
+}

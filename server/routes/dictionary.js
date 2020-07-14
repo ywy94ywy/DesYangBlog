@@ -1,124 +1,124 @@
-var express = require("express");
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 const {
   getDictionarys,
   addDictionary,
   updateDictionary,
   delDictionary,
-} = require("../controller/dictionary");
+} = require('../controller/dictionary')
 
-router.post("/get", function ({ body }, res, next) {
-  const { code } = body;
-  if (!code || typeof code !== "string") {
-    res.json({
+router.post('/get', function ({ body }, res, next) {
+  const { code } = body
+  if (code && typeof code !== 'string') {
+    return res.json({
       status: 500,
-      message: "参数格式不正确！",
-    });
+      message: '参数格式不正确！',
+    })
   }
 
   getDictionarys(code).then((data) => {
     const d = data.map((v) => {
-      v.value = JSON.parse(v.value);
-      return v;
-    });
-    res.json({
+      v.value = JSON.parse(v.value)
+      return v
+    })
+    return res.json({
       status: 200,
       data: d,
-    });
-  });
-});
+    })
+  })
+})
 
-router.post("/add", function ({ body }, res, next) {
-  const { code, name, value } = body;
-  let isValid = false;
-  if (typeof code !== "string" || typeof name !== "string") {
-    res.json({
+router.post('/add', function ({ body }, res, next) {
+  const { code, name, value } = body
+  let isValid = false
+  if (typeof code !== 'string' || typeof name !== 'string') {
+    return res.json({
       status: 500,
-      message: "code或name格式不正确！",
-    });
+      message: 'code或name格式不正确！',
+    })
   }
 
   try {
     if (JSON.parse(value) instanceof Array) {
-      isValid = true;
+      isValid = true
     }
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
   if (!isValid) {
-    res.json({
+    return res.json({
       status: 500,
-      message: "value必须是数组！",
-    });
+      message: 'value必须是数组！',
+    })
   }
   addDictionary(code, name, value)
     .then(() => {
-      res.json({
+      return res.json({
         status: 200,
         data: null,
-      });
+      })
     })
     .catch((err) => {
-      res.json({
+      return res.json({
         status: 500,
         message: err,
-      });
-    });
-});
+      })
+    })
+})
 
-router.post("/update", function ({ body }, res, next) {
-  const { id, code, name, value } = body;
+router.post('/update', function ({ body }, res, next) {
+  const { id, code, name, value } = body
   if (
     !id ||
     !code ||
     !name ||
-    typeof id !== "string" ||
-    typeof code !== "string" ||
-    typeof name !== "string"
+    Number.isNaN(+id) ||
+    typeof code !== 'string' ||
+    typeof name !== 'string'
   ) {
     res.json({
       status: 500,
-      message: "参数格式不正确！",
-    });
+      message: '参数格式不正确！',
+    })
   }
 
   try {
     if (JSON.parse(value) instanceof Array) {
-      isValid = true;
+      isValid = true
     }
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
   if (!isValid) {
     res.json({
       status: 500,
-      message: "value必须是数组！",
-    });
+      message: 'value必须是数组！',
+    })
   }
 
   updateDictionary(id, code, name, value).then(() => {
     res.json({
       status: 200,
       data: null,
-    });
-  });
-});
+    })
+  })
+})
 
-router.post("/del", function ({ body }, res, next) {
-  const { id } = body;
-  if (!id || typeof id !== "string") {
+router.post('/del', function ({ body }, res, next) {
+  const { id } = body
+  if (!id || Number.isNaN(+id)) {
     res.json({
       status: 500,
-      message: "参数格式不正确！",
-    });
+      message: '参数格式不正确！',
+    })
   }
 
   delDictionary(id).then(() => {
     res.json({
       status: 200,
       data: null,
-    });
-  });
-});
+    })
+  })
+})
 
-module.exports = router;
+module.exports = router

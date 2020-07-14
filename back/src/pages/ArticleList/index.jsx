@@ -10,13 +10,13 @@ export default () => {
     initialData: [],
   })
   const delArticleRequest = useRequest(delArticle, {
-    onSuccess(res) {
+    onSuccess() {
       message.success('文章删除成功！')
       getArticleListRequest.run()
     },
     manual: true,
   })
-  
+
   return (
     <Card>
       <List
@@ -28,16 +28,12 @@ export default () => {
         renderItem={(item) => (
           <List.Item
             actions={[
-              <a
-                onClick={() =>
-                  history.push(`/articles/edit?id=${item.article_id}`)
-                }
-              >
+              <a onClick={() => history.push(`/articles/edit?id=${item.id}`)}>
                 编辑
               </a>,
               <a
                 onClick={() => {
-                  delArticleRequest.run(item.article_id)
+                  delArticleRequest.run(item.id)
                 }}
               >
                 删除

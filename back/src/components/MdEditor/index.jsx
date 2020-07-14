@@ -85,11 +85,8 @@ export default forwardRef(({ value, onChange, ...props }, ref) => {
       if (file.name.match(/\.(md|txt)$/)) {
         const reader = new FileReader()
         reader.onload = () => {
-          console.log(reader.result)
-          window.a = reader.result
           onChange(reader.result)
         }
-
         reader.readAsText(e.dataTransfer.files[0])
       } else {
         message.error('文件格式不正确')
