@@ -7,7 +7,24 @@
     }
     > .right {
       margin-left: 24px;
+
       width: 200px;
+
+      .contents {
+        border-left: 1px solid #ccc;
+        padding-left: 24px;
+        position: sticky;
+        top: 70px;
+        li {
+          padding-left: 12px;
+        }
+        a {
+          color: #666;
+          &:hover {
+            color: black;
+          }
+        }
+      }
     }
   }
   .info {

@@ -3,6 +3,7 @@ import IconFont from 'components/IconFont'
 import { useHistory } from 'react-router-dom'
 import { getArticles, getTags } from './services'
 import moment from 'moment'
+import { Tag } from 'antd'
 import { useRequest } from 'utils'
 import styles from './style.scss'
 
@@ -32,21 +33,23 @@ export default () => {
                         onClick={() => {
                           history.push('/article?p=' + v.id)
                         }}
+                        style={{ marginRight: 12 }}
                       >
                         {v.title}
                       </a>
                       {v.tags.map((v) => (
-                        <span
-                          key={v}
-                          style={{
-                            fontSize: 12,
-                            background: '#ccc',
-                            marginLeft: 12,
-                            padding: '0 4px',
-                          }}
-                        >
-                          {tagsMap[v]}
-                        </span>
+                        <Tag>{tagsMap[v]}</Tag>
+                        // <span
+                        //   key={v}
+                        //   style={{
+                        //     fontSize: 12,
+                        //     background: '#ccc',
+                        //     marginLeft: 12,
+                        //     padding: '0 4px',
+                        //   }}
+                        // >
+                        //   {tagsMap[v]}
+                        // </span>
                       ))}
                     </h1>
                   </div>

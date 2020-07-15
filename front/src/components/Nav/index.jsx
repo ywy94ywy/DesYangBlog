@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Icon } from 'antd'
+import { useHistory } from 'react-router-dom'
 import Container from 'components/Container'
 import IconFont from 'components/IconFont'
 import classNames from 'classnames'
+import routes from '@/config/routes'
 import styles from './style.scss'
 
 export default () => {
   const [style, setStyle] = useState('')
+  const history = useHistory()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,18 +30,15 @@ export default () => {
         <Container className={styles.container}>
           <div>logo</div>
           <ul>
-            <li>
-              <IconFont type='icon-home-fill' />
-              <span className={styles.nav_item}>首页</span>
-            </li>
-            <li>
-              <IconFont type='icon-tags-fill' />
-              <span className={styles.nav_item}>标签</span>
-            </li>
-            <li>
-              <IconFont type='icon-robot-fill' />
-              <span className={styles.nav_item}>关于</span>
-            </li>
+            {routes.map(
+              (v) =>
+                v.name && (
+                  <li key={v.path} onClick={() => history.push(v.path)}>
+                    <IconFont type={v.icon} />
+                    <span className={styles.nav_item}>{v.name}</span>
+                  </li>
+                ),
+            )}
             <li>
               <IconFont type='icon-github-fill' />
             </li>

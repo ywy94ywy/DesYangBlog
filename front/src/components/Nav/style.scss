@@ -33,6 +33,7 @@
       align-items: center;
       > ul {
         display: flex;
+        margin-bottom: 0;
         li {
           transition: all 0.2s;
           padding: 2px 6px;
