@@ -19,7 +19,11 @@ const App = () => {
             {routes.map((v) => {
               const Component = lazy(() => import(`${v.component}`))
               return (
-                <Route path={v.path} key={v.path} exact={v.path === '/'}>
+                <Route
+                  path={v.path}
+                  key={v.path}
+                  exact={v.path === '/'}
+                >
                   <Suspense fallback={'loading...'}>
                     <Component />
                   </Suspense>

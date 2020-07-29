@@ -22,8 +22,8 @@ export default () => {
   const getArticleDetailRequest = useRequest(getArticleDetail, {
     onSuccess(res) {
       editForm.setFieldsValue(res)
-      setTitle(title)
-      setText(text)
+      setTitle(res.title)
+      setText(res.text)
     },
     manual: true,
   })

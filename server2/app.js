@@ -3,28 +3,18 @@ var express = require('express')
 var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
-var cors = require('express-cors')
 
 var articlesRouter = require('./routes/articles')
-var tagsRouter = require('./routes/tags')
-var dictionaryRouter = require('./routes/dictionary')
 
 var app = express()
 
-app.use(
-  cors({
-    allowedOrigins: ['http://localhost:8080', 'http://localhost:8081'],
-  }),
-)
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/articles', articlesRouter)
-app.use('/tags', tagsRouter)
-app.use('/dictionary', dictionaryRouter)
+app.use('/api/articles', articlesRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

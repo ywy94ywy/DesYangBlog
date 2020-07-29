@@ -1,6 +1,6 @@
 export const getArticles = () => {
   return {
-    url: '/articles/getList',
+    url: '/articles/getPublished',
     method: 'post',
   }
 }

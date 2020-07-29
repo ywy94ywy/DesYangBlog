@@ -10,7 +10,7 @@ export default () => {
           <div className={styles.title}>BLOG NAME</div>
         </Container>
       </div>
-      <div className={styles.preview_overlay}>
+      {/* <div className={styles.preview_overlay}>
         <svg
           className={styles.preview_waves}
           xmlns='http://www.w3.org/2000/svg'
@@ -47,7 +47,7 @@ export default () => {
             <use xlinkHref='#gentle-wave' x='48' y='7' fill='#fff'></use>
           </g>
         </svg>
-      </div>
+      </div> */}
     </>
   )
 }

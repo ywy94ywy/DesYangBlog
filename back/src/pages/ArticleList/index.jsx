@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRequest } from 'utils'
-import { List, Card, Skeleton, message } from 'antd'
+import { List, Card, Skeleton, message, Table, Switch, Space } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { getArticleList, delArticle } from './services'
 
@@ -17,38 +17,50 @@ export default () => {
     manual: true,
   })
 
+  const columns = [
+    {
+      title: '标题',
+      dataIndex: 'title',
+    },
+    // {
+    //   title: '标签',
+    //   dataIndex: 'tags',
+    // },
+    // {
+    //   title: '是否发布',
+    //   dataIndex: 'published',
+    //   render(text) {
+    //     return <Switch checked={text} />
+    //   },
+    // },
+    {
+      title: '操作',
+      render(_, record) {
+        return (
+          <Space>
+            <a onClick={() => history.push(`/articles/edit?id=${record.id}`)}>
+              编辑
+            </a>
+            <a
+              onClick={() => {
+                delArticleRequest.run(record.id)
+              }}
+            >
+              删除
+            </a>
+          </Space>
+        )
+      },
+    },
+  ]
+
   return (
     <Card>
-      <List
+      <Table
+        rowKey='id'
+        columns={columns}
+        dataSource={getArticleListRequest.data}
         loading={getArticleListRequest.loading}
-        itemLayout='horizontal'
-        dataSource={
-          getArticleListRequest.data ? getArticleListRequest.data : []
-        }
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              <a onClick={() => history.push(`/articles/edit?id=${item.id}`)}>
-                编辑
-              </a>,
-              <a
-                onClick={() => {
-                  delArticleRequest.run(item.id)
-                }}
-              >
-                删除
-              </a>,
-            ]}
-          >
-            <List.Item.Meta
-              // avatar={
-              //   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              // }
-              title={<span>{item.title}</span>}
-              // description='Ant Design, a design language for background applications, is refined by Ant UED Team'
-            />
-          </List.Item>
-        )}
       />
     </Card>
   )

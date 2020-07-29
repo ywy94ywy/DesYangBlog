@@ -38,7 +38,7 @@ export default () => {
                         {v.title}
                       </a>
                       {v.tags.map((v) => (
-                        <Tag>{tagsMap[v]}</Tag>
+                        <Tag key={v}>{tagsMap[v]}</Tag>
                         // <span
                         //   key={v}
                         //   style={{

@@ -46,6 +46,13 @@ const getArticleList = async () => {
   return await exec(sql)
 }
 
+const getPublishedArticles = async () => {
+  const sql =
+    'SELECT id,title,create_time,update_time,original,visits,tags,published FROM article where published = 1;'
+
+  return await exec(sql)
+}
+
 const getArticleDetail = async (id) => {
   const sql = `SELECT id,title,text,create_time,update_time,original,visits,tags,published  FROM article WHERE id = ${es(
     id,
@@ -78,6 +85,7 @@ const visitArticle = async (id) => {
 
 module.exports = {
   getArticleList,
+  getPublishedArticles,
   getArticleDetail,
   addArticle,
   updateArticle,

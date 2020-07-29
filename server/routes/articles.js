@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 const {
   getArticleList,
+  getPublishedArticles,
   getArticleDetail,
   addArticle,
   updateArticle,
@@ -11,6 +12,17 @@ const {
 
 router.post('/getList', function (req, res, next) {
   getArticleList().then((data) => {
+    setTimeout(() => {
+      return res.json({
+        status: 200,
+        data: data.map((v) => ({ ...v, tags: JSON.parse(v.tags) })),
+      })
+    }, 1000)
+  })
+})
+
+router.post('/getPublished', function (req, res, next) {
+  getPublishedArticles().then((data) => {
     setTimeout(() => {
       return res.json({
         status: 200,
