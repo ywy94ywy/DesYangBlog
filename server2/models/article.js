@@ -7,19 +7,13 @@ const Article = sequelize.define('article', {
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
-    validate: {
-      notNull: {
-        msg: 'id不能为空!',
-      },
-      is: ['^[a-z]+$', 'i'],
-    },
   },
   title: {
     allowNull: false,
     type: DataTypes.STRING,
     validate: {
       notNull: {
-        msg: '标题不能为空!',
+        msg: '标题不能为空！',
       },
     },
   },
@@ -28,7 +22,7 @@ const Article = sequelize.define('article', {
     allowNull: false,
     validate: {
       notNull: {
-        msg: '正文不能为空!',
+        msg: '正文不能为空！',
       },
     },
   },
@@ -37,15 +31,30 @@ const Article = sequelize.define('article', {
     allowNull: false,
     validate: {
       notNull: {
-        msg: '是否原创不能为空!',
+        msg: '是否原创不能为空！',
       },
     },
   },
-  classify_id: DataTypes.INTEGER,
+  classify_id: {
+    type: DataTypes.INTEGER,
+    validate: {
+      isInt: {
+        msg: '分类参数不正确！',
+      },
+    },
+  },
   created_at: DataTypes.DATE,
   updated_at: DataTypes.DATE,
-  click: DataTypes.INTEGER,
-  published: DataTypes.BOOLEAN,
+  click: { type: DataTypes.INTEGER, defaultValue: 0 },
+  published: {
+    type: DataTypes.BOOLEAN,
+    validate: {
+      isIn: {
+        args: /^0|1$/i,
+        msg: '发布参数格式不正确！',
+      },
+    },
+  },
 })
 
 module.exports = Article
