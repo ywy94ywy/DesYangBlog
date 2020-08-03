@@ -1,13 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const { Sequelize } = require('sequelize')
-const Article = require('../models/article')
+const { models } = require('../models')
 const { SuccessModel, ErrorModel } = require('../models/response')
 const { isId } = require('../utils')
 
 router.get('/getAll', async (req, res, next) => {
   try {
-    const articles = await Article.findAll()
+    const articles = await models.article.findAll()
     res.json(new SuccessModel(articles))
   } catch (err) {
     res.json(new ErrorModel(500, err))
@@ -22,7 +21,7 @@ router.get('/getPublished', async (req, res, next) => {
   }
 
   try {
-    const articles = await Article.findAll({
+    const articles = await models.article.findAll({
       where: {
         published,
       },
@@ -36,7 +35,7 @@ router.get('/getPublished', async (req, res, next) => {
 router.get('/getDetail', async (req, res, next) => {
   try {
     const id = isId(req.query.id)
-    const code = await Article.update(
+    const code = await models.article.update(
       { click: Sequelize.literal('click+1') },
       { where: { id } },
     )
@@ -44,7 +43,7 @@ router.get('/getDetail', async (req, res, next) => {
       return res.json(new ErrorModel(500, 'id不存在!'))
     }
 
-    const article = await Article.findByPk(id)
+    const article = await models.article.findByPk(id)
     res.json(new SuccessModel(article))
   } catch (err) {
     res.json(new ErrorModel(500, err))
@@ -53,7 +52,7 @@ router.get('/getDetail', async (req, res, next) => {
 
 router.post('/add', async (req, res, next) => {
   try {
-    await Article.create(req.body)
+    await models.article.create(req.body)
     res.json(new SuccessModel())
   } catch (err) {
     res.json(new ErrorModel(500, err))
@@ -65,8 +64,9 @@ router.post('/update', async (req, res, next) => {
 
   try {
     const id = isId(nnId)
-    const code = await Article.update(rest, { where: { id } })
-    if (code === 1) {
+    const code = await models.article.update(rest, { where: { id } })
+
+    if (+code === 1) {
       res.json(new SuccessModel())
     } else {
       res.json(new ErrorModel(500, 'id不存在，更新失败！'))
@@ -79,7 +79,7 @@ router.post('/update', async (req, res, next) => {
 router.post('/delete', async (req, res, next) => {
   try {
     const id = isId(req.body.id)
-    const code = await Article.destroy({ where: { id } })
+    const code = await models.article.destroy({ where: { id } })
     if (code === 1) {
       return res.json(new SuccessModel())
     } else {

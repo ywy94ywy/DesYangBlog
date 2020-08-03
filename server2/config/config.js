@@ -1,7 +1,7 @@
 const MYSQL_CONFIG = {
   host: 'localhost',
   port: '3306',
-  database: 'new_blog',
+  database: 'test_blog',
   username: 'root',
   password: '123456',
 }

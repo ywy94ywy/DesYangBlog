@@ -6,6 +6,7 @@ var logger = require('morgan')
 
 var articleRouter = require('./routes/article')
 var tagRouter = require('./routes/tag')
+var articleTagRouter = require('./routes/articleTag')
 
 var app = express()
 
@@ -17,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api/article', articleRouter)
 app.use('/api/tag', tagRouter)
+app.use('/api/articleTag', articleTagRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
