@@ -15,7 +15,19 @@ router.get('/getTags', async (req, res, next) => {
       return res.json(new ErrorModel(500, '文章不存在！'))
     }
 
-    const tag_list = await article.getTags()
+    const tag_list = await article.getTags({
+      // scope:true
+      // attributes: [
+      //   'name',
+      // {
+      // target: models.tag,
+      through: {
+        scope: true,
+        // attribute: ['name'],
+      },
+      // },
+      // ],
+    })
     res.json(new SuccessModel(tag_list))
   } catch (err) {
     res.json(new ErrorModel(500, err))
